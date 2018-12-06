@@ -1,12 +1,18 @@
 ##1
 
 ```javascript
-console.log(0 / 0)
+var big = 'so big'
+
+var obj = {
+  big: 'so so big',
+  showBig: function() {
+    return this.big
+  }
+}
+obj.showBig.call(big)
 ```
 
-<span style="color:green">答案:</span> {%s%}----NaN----{%ends%}
-
-<span style="color:#EA6F5A">解析:</span> {%s%}任何数值除以 0 都会导致错误(数学规定)而终止程序执行,但是在 JavaScript 中，会返回出 NaN，不影响后面程序{%ends%}
+<span style="color:green">答案:</span> {%s%}----ƒ big() { [native code] } String 自带 big 方法----{%ends%}
 
 ##2
 
@@ -190,9 +196,6 @@ function add(x) {<br>
 &emsp;&emsp;&emsp;&emsp;return tmp;<br>
 &emsp;&emsp;&emsp;&emsp;}<br>
 {%ends%}
-<span style="color:#EA6F5A">解析:</span> {%s%}
-高阶函数
-{%ends%}
 
 ##11
 
@@ -306,18 +309,19 @@ css的伪类和伪元素的区别
 function test(res) {
   return Promise.resolve(res)
     .then(res => {
-      console.log("第一个then")
+      console.log('第一个then')
       return res
     })
     .then(res => {
-      console.log("第二个then")
+      console.log('第二个then')
       return Promise.reject('end')
+    })
     .catch(res => {
-       console.log("进入了catch")
+      console.log('进入了catch')
       return res
     })
     .then(res => {
-      console.log("catch之后的then")
+      console.log('catch之后的then')
     })
 }
 test('test')
@@ -331,8 +335,9 @@ test('test')
 <span style="color:#EA6F5A">解析:</span>
 {%s%}
 1:catch()是 then()的语法糖<br>
-2:then()返回的是一个 promise。
-3:因为 then()和 catch()又返回了一个 promise，因此，后续调用可以串联起来。
+2:then()返回的是一个 promise。<br>
+3:因为 then()和 catch()又返回了一个 promise，因此，后续调用可以串联起来。<br>
+4:但是如果 reject 了之后是不可以 then 的!
 {%ends%}
 
 ##19
@@ -352,7 +357,7 @@ const 声明创建一个值的只读引用。但这并不意味着它所持有�
 ##20
 
 ```
-如何展示一个图片,比例永远是16:9?
+如何让一个div的比例永远是16:9?
 ```
 
 <span style="color:green">答案:{%s%}通过 padding-bottom:56.25%{%ends%}</span>
@@ -457,5 +462,532 @@ polyfill 是“在旧版浏览器上复制标准 API 的 JavaScript 补充”,�
 例如，geolocation（地理位置）polyfill 可以在 navigator 对象上添加全局的 geolocation 对象，还能添加 getCurrentPosition 函数以及“坐标”回调对象，
 所有这些都是 W3C 地理位置 API 定义的对象和函数。因为 polyfill 模拟标准 API，所以能够以一种面向所有浏览器未来的方式针对这些 API 进行开发，
 一旦对这些 API 的支持变成绝对大多数，则可以方便地去掉 polyfill，无需做任何额外工作。
+{%ends%}
+</span>
+
+##26
+
+```javascript
+var x = 20
+var temp = {
+  x: 40,
+  foo: function() {
+    var x = 10
+    return this.x
+  }
+}
+;(temp.foo, temp.foo)()
+```
+
+<span style="color:green">答案:
+{%s%}
+---20---
+{%ends%}
+</span>
+<span style="color:#EA6F5A">解析:
+{%s%}
+逗号操作符会从左到右计算它的操作数，返回最后一个操作数的值。<br>
+所以,所以(temp.foo, temp.foo)();等价于 var fun = temp.foo; fun();<br>
+fun 调用时 this 指向 window，所以返回 20。
+{%ends%}
+</span>
+
+##27
+
+```javascript
+for (var i = 0; i < 5; i++) {
+  setTimeout(
+    (function(i) {
+      console.log(i)
+    })(i),
+    i * 1000
+  )
+}
+```
+
+<span style="color:green">答案:
+{%s%}
+立刻输出 0,1,2,3,4
+{%ends%}
+</span>
+<span style="color:#EA6F5A">解析:
+{%s%}
+setTimeout 可以接受函数或者字符串作为参数<br>
+然而这里的自执行函数其实等价 undefined<br>
+然后自执行函就立刻执行,输出 0 1 2 3 4
+{%ends%}
+</span>
+
+##28
+
+```
+讲述一下数组的find,filter
+```
+
+<span style="color:green">答案:
+{%s%}
+find 只查找符合条件的第一个"值",并且返回这个“值”<br>
+filter 返回全部的结果
+{%ends%}
+</span>
+
+##29
+
+```javascript
+typeof null === 'object'
+null instanceof Object //output ?
+```
+
+<span style="color:green">答案:
+{%s%}
+----false---
+{%ends%}
+</span>
+<span style="color:#EA6F5A">解析:
+{%s%}
+1:instanceof 运算符用来检测 constructor.prototype 是否存在于参数 object 的原型链上.<br>
+2:null 值并不是以 Object 为原型创建出来的<br>
+{%ends%}
+</span>
+
+##30
+
+```javascript
+var name = 'World!'
+;(function() {
+  if (typeof name === 'undefined') {
+    var name = 'Jack'
+    console.log('Goodbye ' + name)
+  } else {
+    console.log('Hello ' + name)
+  }
+})()
+```
+
+<span style="color:green">答案:
+{%s%}
+Goodbye Jack
+{%ends%}
+</span>
+<span style="color:#EA6F5A">解析:
+{%s%}
+在 JavaScript 中， functions 和 variables 会被提升。变量提升是 JavaScript 将声明移至作用域 scope (全局域或者当前函数作用域) 顶部的行为。<br>
+;(function() {<br>
+&emsp;var name<br>
+&emsp;if (typeof name === 'undefined') {<br>
+&emsp;&emsp;name= 'Jack'<br>
+&emsp;&emsp;console.log('Goodbye ' + name)<br>
+&emsp;} else {<br>
+&emsp;console.log('Hello ' + name)<br>
+&emsp;&emsp;}<br>
+&emsp;})()<br>
+{%ends%}
+</span>
+
+##31
+
+```javascript
+function showCase(value) {
+  switch (value) {
+    case 'A':
+      console.log('Case A')
+      break
+    case 'B':
+      console.log('Case B')
+      break
+    case undefined:
+      console.log('undefined')
+      break
+    default:
+      console.log('Do not know!')
+  }
+}
+showCase(new String('A'))
+showCase(String('A'))
+```
+
+<span style="color:green">答案:
+{%s%}
+1:走 default<br>
+2:case 'A':
+{%ends%}
+</span>
+
+<p style="color:#EA6F5A">解析:
+{%s%}
+switch 是严格比较, String 实例和 字符串不一样.<br>
+String 不仅是个构造函数 直接调用返回一个字符串
+{%ends%}
+</p>
+
+##32
+
+```javascript
+Array.isArray(Array.prototype)
+```
+
+<span style="color:green">答案:
+{%s%}
+---这他妈的是真的--
+{%ends%}
+</span>
+
+<p style="color:#EA6F5A">解析:
+{%s%}
+鲜为人知的事实：Array.prototype 本身就是 Array<br>
+摘自MDN<br>
+可能:Array.prototype类型为数组可能是Array.prototype上挂的方法都是Array类型适用的，而不能通过Object调用，为了保证这个一致性吧<br>
+{%ends%}
+</p>
+
+##33
+
+```javascript
+var a = [0]
+if ([0]) {
+  console.log(a == true)
+} else {
+  console.log('aaaaa')
+}
+```
+
+<span style="color:green">答案:
+{%s%}
+false
+{%ends%}
+</span>
+
+<p style="color:#EA6F5A">解析:
+这是一张==的图<br>
+<img  style="display:block" src="1.png">
+<a href="https://dorey.github.io/JavaScript-Equality-Table/">点我查看==  === if 里的各种</a>
+</p>
+
+##34
+
+```javascript
+function sidEffecting(ary) {
+  ary[0] = ary[2]
+}
+function bar(a, b, c) {
+  c = 10
+  sidEffecting(arguments)
+  return a + b + c
+}
+bar(1, 1, 1)
+```
+
+<span style="color:green">答案:
+{%s%}
+---21--
+{%ends%}
+</span>
+
+<p style="color:#EA6F5A">解析:
+{%s%}
+arguments是一个object<br>
+c 就是 arguments[2], 所以对于 c 的修改就是对 arguments[2] 的修改.<br>
+{%ends%}
+</p>
+
+##35
+
+```javascript
+function sidEffecting(ary) {
+  ary[0] = ary[2]
+}
+function bar(a, b, c = 3) {
+  c = 10
+  sidEffecting(arguments)
+  return a + b + c
+}
+bar(1, 1, 1)
+```
+
+<span style="color:green">答案:
+{%s%}
+---12--
+{%ends%}
+</span>
+
+<p style="color:#EA6F5A">解析:
+{%s%}
+当函数参数涉及到 ...args(Rest)  默认参数(default) 解构(destructured ) 的时候, 这个 arguments 就不在是一个映射的arg obj<br>
+{%ends%}
+</p>
+
+##36
+
+```
+路由如何传参数
+http://192.168.1.1?a=1&b=2如何获取参数
+https://192.168.1.1/list/58b401d28d6d8100586c4700 如何获取参数
+```
+
+<span style="color:green">答案:
+{%s%}
+query,params
+{%ends%}
+</span>
+
+##37
+
+```
+NGPage组件做了什么?
+```
+
+<span style="color:green">答案:
+{%s%}
+HOC 实现 changeTabItemTitle
+{%ends%}
+</span>
+
+##38
+
+```
+项目里的Axios.getInstance()做了什么?
+为什么要这样做?
+```
+
+##39
+
+```typescript
+import NGBreadcrumb from 'components/NGBreadcrumb'
+//为什么可以通过 components 来找到 NGBreadcrumb 而不用相对路径
+```
+
+##40
+
+```javascript
+//找出包含关键字的所在对象id
+var docs = [
+  {
+    id: 1,
+    words: ['hello', 'world']
+  },
+  {
+    id: 2,
+    words: ['hello', 'hihi']
+  },
+  {
+    id: 3,
+    words: ['haha', 'hello']
+  },
+  {
+    id: 4,
+    words: ['world', 'nihao']
+  }
+]
+findDocList(docs, ['hello']) // [1,2,3]
+findDocList(docs, ['hello', 'world']) // [1]
+```
+
+<p style="color:green">答案:<br>
+{%s%}
+function findDocList(docs, word = []) {<br>
+&emsp;let ids = [];<br>
+&emsp;for (let i = 0; i < docs.length; i++) {<br>
+&emsp;&emsp;let {id, words} = docs[i];<br>
+&emsp;&emsp;let flag = word.every((item) => {<br>
+&emsp;&emsp;&emsp;return words.includes(item);<br>
+&emsp;});<br>
+&emsp;&emsp;flag && ids.push(id);<br>
+&emsp;}<br>
+&emsp;return ids;<br>
+}<br>
+
+{%ends%}
+
+</p>
+
+##41
+
+```
+伪数组如何转为真数组
+```
+
+<span style="color:green">答案:
+{%s%}
+//比较快捷简单的一种
+[...likeArr]
+{%ends%}
+</span>
+
+##42
+
+```javascript
+if ('a' in window) {
+  var a = 10
+}
+console.log(a)
+```
+
+<span style="color:green">答案:
+{%s%}
+-------10
+{%ends%}
+</span>
+
+<p style="color:#EA6F5A">解析:
+{%s%}
+变量隐式声明<br>
+{%ends%}
+</p>
+
+##43
+
+```javascript
+//优化下面的代码
+var str = '我喜欢我可爱的女朋友，'
+str = str + '她叫喵喵，'
+str = str + '她时而可爱，时而认真，'
+str = str + '她那天真的笑声可以让人忘掉一切烦恼。'
+console.log(str)
+```
+
+<span style="color:green">答案:
+{%s%}
+var res=[] <br>
+var str="我喜欢我可爱的女朋友，" <br>
+res.push(str) <br>
+res.push("她叫喵喵，") <br>
+res.push("她时而可爱，时而认真，") <br>
+res.push("她那天真的笑声可以让人忘掉一切烦恼。") <br>
+console.log(res.join("")) <br>
+{%ends%}
+</span>
+
+<p style="color:#EA6F5A">解析:
+{%s%}
+//str +=的操作<br>
+1、首先开辟一块临时空间，存储字符串，<br>
+2、然后在开辟一块空间<br>
+3、把str中的字符串复制到刚刚开辟的空间<br>
+4、在把需要连接的字符串复制到str后面<br>
+5、str指向这块空间<br>
+6、回收str原来的空间和临时空间<br>
+//为什么是数组<br>
+数组是连续的存储空间，可以省下很多步
+{%ends%}
+</p>
+
+##44
+
+```
+如何实现一个sleep函数
+```
+
+<span style="color:green">答案:
+{%s%}
+function sleep(ms) {<br>
+&emsp;return new Promise(resolve => setTimeout(resolve, ms));<br>
+}
+{%ends%}
+</span>
+
+##45
+
+```javascript
+NaN === NaN //false
+Object.is(NaN, NaN) //?
+```
+
+<span style="color:green">答案:
+{%s%}
+--true--
+{%ends%}
+</span>
+
+<p style="color:#EA6F5A">解析:
+{%s%}
+ES6 提出“Same-value equality”（同值相等）算法
+{%ends%}
+<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/is">MDN传送门</a>
+
+</p>
+
+##46
+
+```
+列出四种css隐藏元素的方法
+```
+
+<span style="color:green">答案:
+{%s%}
+方法一：display：none；<br>
+方法二：visibility：hidden；<br>
+方法三：opacity：0；<br>
+方法四：z-index<br>
+{%ends%}
+</span>
+
+##47
+
+```javascript
+function Dog(name) {
+  this.name = name
+}
+Dog.bark = function() {
+  console.log(this.name + ' says woof')
+}
+let fido = new Dog('fido')
+fido.bark()
+//output ?
+```
+
+<span style="color:green">答案:
+{%s%}
+fido.bark is not a function
+{%ends%}
+</span>
+
+##48
+
+```
+如何判断一个对象是否拥有某个属性
+```
+
+<span style="color:green">答案:<br>
+{%s%} 1.使用 in 关键字。<br>
+
+该方法可以判断对象的自有属性和继承来的属性是否存在。<br>
+var o={x:1};<br>
+"x" in o; //true，自有属性存在<br>
+"y" in o; //false<br>
+"toString" in o; //true，是一个继承属性<br>
+
+2 使用对象的 hasOwnProperty()方法。<br>
+
+该方法只能判断自有属性是否存在，对于继承属性会返回 false。<br>
+{%ends%}
+</span>
+
+##49
+
+```javascript
+function puzzle() {
+  return () => {
+    console.log(arguments)
+  }
+}
+puzzle('a', 'b', 'c')(1, 2, 3)
+```
+
+<span style="color:green">答案:<br>
+{%s%} 1.使用 in 关键字。<br>
+["a","b","c"]
+{%ends%}
+</span>
+
+##50
+
+```
+ios上使用overflow：scroll不平滑怎么解决
+```
+
+<span style="color:green">答案:<br>
+{%s%}
+-webkit-overflow-scrolling: touch;<br>
+是因为这行代码启用了硬件加速特性，所以滑动很流畅。<br>
 {%ends%}
 </span>
