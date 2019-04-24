@@ -34,15 +34,5 @@ sleepGenerator(1000)
     console.log(1);
   });
 
-Promise.prototype.finally = function(callback) {
-  return this.then(
-    value => this.constructor.resolve(callback()).then(() => value),
-    reason =>
-      this.constructor.resolve(callback()).then(() => {
-        throw reason;
-      })
-  );
-};
-
 var fragment = document.createDocumentFragment();
 fragment.appendChild(elem);

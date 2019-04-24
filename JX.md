@@ -1,15 +1,12 @@
 ##1
 
 ```javascript
-let obj = { '1': 1 };
-let oldArr = ['1', 1, obj, true];
+let oldArr = ['1', 1, { '1': 1 }, true];
 oldArr.forEach(item => {
   item = 1;
 });
 console.log(oldArr);
 ```
-
-<span style="color:green">答案:</span> {%s%}[ '1', 1, { '1': 1 }, true ]{%ends%}
 
 ##2 cookie 和 token 都存放在 header 中，为什么不会劫持 token？
 
@@ -29,7 +26,7 @@ console.log(oldArr);
 
 ##10 实现一段代码,判断数组里的值是否都是一样 [1,2,3,4,5] => false [1,1,1,1,1]=>true
 
-##11 实现一个 promise 的 finally 的 polyfill
+##11 setTimeout 和 promise 哪个先执行
 
 ##12 css 盒模型
 
