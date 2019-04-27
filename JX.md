@@ -46,10 +46,47 @@ console.log(oldArr);
 
 ##20 vue 为什么不能实现对数组的监听
 
-#nodejs
+## 1.loader 的使用方式有几种，分别是什么
 
-#babel
+## 2.loader: ['style-loader','css-loader','sass-loader']这几个 loader 加载顺序是怎么样的
 
-#webpack
+## 3.style-loader 有什么作用
 
-#Electron
+## 4.resolve 下的 alias 有什么作用
+
+## 5.resolve 中 alias 对象的 key 结尾加上$是什么意思,比如{a$:path.resolve(\_\_dirname,'./abc/bcd')}
+
+## 6.主进程和渲染进程发起 ipc 通信分别调用什么 api
+
+## 7.将 electron 打包成 app 实际上依赖的是哪个 npm 包
+
+## 8.主进程 console.log 和渲染进程 console.log 有什么区别
+
+## 9.remote 模块有什么作用
+
+## 10.electron5.0 的更新亮点
+
+## 11.path.join 和 path.resolve 有什么区别
+
+## 12.在 node 中直接 console.log(this)打印出来的是什么
+
+## 13.在 node 中有哪些宏任务,哪些微任务
+
+## 14.node 原生的能够创建服务的模块名字叫什么
+
+## 15.node 中 os 模块有什么作用
+
+## 16.console.log(a)
+
+      console.log(b)
+      var a = 1
+      let b = 2
+      分别打印什么
+
+## 17.css3 如何实现 0.5px 的细线
+
+## 18.http 状态码 3xx 是什么类型的状态码
+
+## 19.options 请求在什么情况下会出现
+
+## 20.http 协议和 https 协议分别使用什么端口
