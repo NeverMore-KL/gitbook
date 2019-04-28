@@ -1,1 +1,5 @@
-# 欢喜就好
+# npm i  gitbook -g
+
+# gitbook build
+
+# gitbook serve
